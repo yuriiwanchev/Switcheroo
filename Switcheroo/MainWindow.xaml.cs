@@ -234,7 +234,7 @@ namespace Switcheroo
         {
             var icon = Properties.Resources.icon;
 
-            var runOnStartupMenuItem = new MenuItem("Run on Startup", (s, e) => RunOnStartup(s as MenuItem))
+            var runOnStartupMenuItem = new MenuItem("Run on &Startup", (s, e) => RunOnStartup(s as MenuItem))
             {
                 Checked = new AutoStart().IsEnabled
             };
