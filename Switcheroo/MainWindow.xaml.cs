@@ -397,7 +397,7 @@ namespace Switcheroo
 
             FocusItemInList(focus, foregroundWindowMovedToBottom);
 
-            tb.Clear();
+            if ( tb.IsEnabled ) tb.Clear();
             tb.Focus();
             CenterWindow();
             ScrollSelectedItemIntoView();
