@@ -122,13 +122,12 @@ namespace Switcheroo
                         lb.DataContext = null;
                         lb.DataContext = _unfilteredWindowList;
 
-                        _sortWinList = true;
+                        Toggle_sortWinList();
                     }
                     else
                     {
+                        Toggle_sortWinList();
                         LoadData(InitialFocus.NextItem);
-
-                        _sortWinList = false;
                     }
                 }
                 else if ((args.SystemKey == Key.Up || args.SystemKey == Key.K) && Keyboard.Modifiers.HasFlag(ModifierKeys.Alt))
@@ -251,6 +250,8 @@ namespace Switcheroo
                 Checked = new AutoStart().IsEnabled
             };
 
+            var sortAZMenuItem = new MenuItem("Alpha&betical Sort", (s, e) => sortAZMenuItem_Click(s as MenuItem));
+
             _notifyIcon = new NotifyIcon
             {
                 Text = "Switcheroo",
@@ -260,6 +261,7 @@ namespace Switcheroo
                 {
                     new MenuItem("&Options", (s, e) => Options()),
                     runOnStartupMenuItem,
+                    sortAZMenuItem,
                     new MenuItem("&About", (s, e) => About()),
                     new MenuItem("E&xit", (s, e) => Quit())
                 })
@@ -267,7 +269,13 @@ namespace Switcheroo
             
             _notifyIcon.MouseClick += new System.Windows.Forms.MouseEventHandler(NotifyIconMouseClick);
         }
-        
+
+        private void sortAZMenuItem_Click(MenuItem menuItem)
+        {
+            Toggle_sortWinList();
+            menuItem.Checked = !menuItem.Checked;
+        }
+
         void NotifyIconMouseClick(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
@@ -390,8 +398,16 @@ namespace Switcheroo
                     new XamlHighlighter().Highlight(new[] { new StringPart(_unfilteredWindowList[i].AppWindow.ProcessTitle) });
             }
 
-            lb.DataContext = null;
-            lb.DataContext = _filteredWindowList;
+            if (_sortWinList == true)
+            {
+                _unfilteredWindowList = _unfilteredWindowList.OrderBy(x => x.FormattedProcessTitle).ToList();
+                lb.DataContext = null;
+                lb.DataContext = _unfilteredWindowList;
+            }
+            else
+            {
+                lb.DataContext = _filteredWindowList;
+            }
 
             FocusItemInList(focus, foregroundWindowMovedToBottom);
 
@@ -905,6 +921,11 @@ namespace Switcheroo
             }
 
             HideWindow();
+        }
+
+        void Toggle_sortWinList()
+        {
+            _sortWinList = !_sortWinList;
         }
     }
 }
