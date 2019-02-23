@@ -116,18 +116,17 @@ namespace Switcheroo
                 }
                 else if (args.SystemKey == Key.S && Keyboard.Modifiers.HasFlag(ModifierKeys.Alt))
                 {
-                    if (_sortWinList == false)
+                    if (! _sortWinList)
                     {
                         _unfilteredWindowList = _unfilteredWindowList.OrderBy(x => x.FormattedProcessTitle).ToList();
                         lb.DataContext = null;
                         lb.DataContext = _unfilteredWindowList;
-
                         Toggle_sortWinList();
                     }
                     else
                     {
-                        Toggle_sortWinList();
                         LoadData(InitialFocus.NextItem);
+                        Toggle_sortWinList();
                     }
                 }
                 else if ((args.SystemKey == Key.Up || args.SystemKey == Key.K) && Keyboard.Modifiers.HasFlag(ModifierKeys.Alt))
@@ -244,7 +243,7 @@ namespace Switcheroo
         private void SetUpNotifyIcon()
         {
             var icon = Properties.Resources.icon;
-
+            
             var runOnStartupMenuItem = new MenuItem("Run on &Startup", (s, e) => RunOnStartup(s as MenuItem))
             {
                 Checked = new AutoStart().IsEnabled
@@ -273,7 +272,7 @@ namespace Switcheroo
         private void sortAZMenuItem_Click(MenuItem menuItem)
         {
             Toggle_sortWinList();
-            menuItem.Checked = !menuItem.Checked;
+            menuItem.Checked = _sortWinList;
         }
 
         void NotifyIconMouseClick(object sender, System.Windows.Forms.MouseEventArgs e)
@@ -285,8 +284,8 @@ namespace Switcheroo
                    _foregroundWindow = SystemWindow.ForegroundWindow;
                     Show();
                     Activate();
-                    Keyboard.Focus(tb);
                     LoadData(InitialFocus.NextItem);
+                    Keyboard.Focus(tb);
                     Opacity = 1;
                 }
             }
@@ -387,20 +386,17 @@ namespace Switcheroo
             _filteredWindowList = new ObservableCollection<AppWindowViewModel>(_unfilteredWindowList);
             _windowCloser = new WindowCloser();
 
-            for (var i = 0; i < _unfilteredWindowList.Count; i++)
+            foreach (var window in _unfilteredWindowList)
             {
-                if (i < 10)
-                {
-                    _unfilteredWindowList[i].FormattedTitle = new XamlHighlighter().Highlight(new[] { new StringPart("" + (i + 1) + " ", true) });
-                }
-                _unfilteredWindowList[i].FormattedTitle += new XamlHighlighter().Highlight(new[] { new StringPart(_unfilteredWindowList[i].AppWindow.Title) });
-                _unfilteredWindowList[i].FormattedProcessTitle =
-                    new XamlHighlighter().Highlight(new[] { new StringPart(_unfilteredWindowList[i].AppWindow.ProcessTitle) });
+                window.FormattedTitle = new XamlHighlighter().Highlight(new[] {new StringPart(window.AppWindow.Title)});
+                window.FormattedProcessTitle =
+                    new XamlHighlighter().Highlight(new[] {new StringPart(window.AppWindow.ProcessTitle)});
             }
 
             if (_sortWinList == true)
             {
                 _unfilteredWindowList = _unfilteredWindowList.OrderBy(x => x.FormattedProcessTitle).ToList();
+                
                 lb.DataContext = null;
                 lb.DataContext = _unfilteredWindowList;
             }
@@ -926,6 +922,17 @@ namespace Switcheroo
         void Toggle_sortWinList()
         {
             _sortWinList = !_sortWinList;
+            Toggle_MenuItem("Alpha&betical Sort");
+        }
+
+        void Toggle_MenuItem(String text)
+        {
+            foreach (MenuItem mi in _notifyIcon.ContextMenu.MenuItems) {
+                if((String)mi.Text == text) 
+                {
+                    mi.Checked = !mi.Checked;
+                }
+            }
         }
     }
 }
