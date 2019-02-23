@@ -116,18 +116,8 @@ namespace Switcheroo
                 }
                 else if (args.SystemKey == Key.S && Keyboard.Modifiers.HasFlag(ModifierKeys.Alt))
                 {
-                    if (! _sortWinList)
-                    {
-                        _unfilteredWindowList = _unfilteredWindowList.OrderBy(x => x.FormattedProcessTitle).ToList();
-                        lb.DataContext = null;
-                        lb.DataContext = _unfilteredWindowList;
-                        Toggle_sortWinList();
-                    }
-                    else
-                    {
-                        LoadData(InitialFocus.NextItem);
-                        Toggle_sortWinList();
-                    }
+                    Toggle_sortWinList();
+                    LoadData(InitialFocus.NextItem);
                 }
                 else if ((args.SystemKey == Key.Up || args.SystemKey == Key.K) && Keyboard.Modifiers.HasFlag(ModifierKeys.Alt))
                 {
