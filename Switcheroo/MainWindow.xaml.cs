@@ -107,6 +107,10 @@ namespace Switcheroo
                 {
                     Opacity = 0;
                 }
+                else if (args.SystemKey == Key.O)
+                {
+                    Options();
+                }
                 else if (args.SystemKey == Key.Q && Keyboard.Modifiers.HasFlag(ModifierKeys.Alt))
                 {
                     _altTabAutoSwitch = false;
@@ -257,12 +261,6 @@ namespace Switcheroo
             };
             
             _notifyIcon.MouseClick += new System.Windows.Forms.MouseEventHandler(NotifyIconMouseClick);
-        }
-
-        private void sortAZMenuItem_Click(MenuItem menuItem)
-        {
-            Toggle_sortWinList();
-            menuItem.Checked = _sortWinList;
         }
 
         void NotifyIconMouseClick(object sender, System.Windows.Forms.MouseEventArgs e)
@@ -528,6 +526,15 @@ namespace Switcheroo
             Application.Current.Shutdown();
         }
 
+        /// <summary>
+        /// Toggle alphabetical order program sort
+        /// </summary>
+        private void sortAZMenuItem_Click(MenuItem menuItem)
+        {
+            Toggle_sortWinList();
+            menuItem.Checked = _sortWinList;
+        }
+
         #endregion
 
         /// =================================
@@ -707,6 +714,36 @@ namespace Switcheroo
             }
             e.Handled = true;
         }
+        
+        private void MenuItem_Click_toFront(object sender, RoutedEventArgs e)
+        {
+            Switch();
+        }
+
+        private async void MenuItem_Click_toClose(object sender, RoutedEventArgs e)
+        {
+            var windows = lb.SelectedItems.Cast<AppWindowViewModel>().ToList();
+            foreach (var win in windows)
+            {
+                bool isClosed = await _windowCloser.TryCloseAsync(win);
+                if (isClosed)
+                    RemoveWindow(win);
+            }
+
+            if (lb.Items.Count == 0)
+                HideWindow();
+        }
+
+        private void MenuItem_Duplicate(object sender, RoutedEventArgs e)
+        {
+            foreach (var item in lb.SelectedItems)
+            {
+                var torun = _unfilteredWindowList[lb.SelectedIndex].AppWindow.ExecutablePath.ToString();
+                System.Diagnostics.Process.Start(torun);
+            }
+
+            HideWindow();
+        }
 
         private async void CloseWindow(object sender, ExecutedRoutedEventArgs e)
         {
@@ -879,36 +916,6 @@ namespace Switcheroo
             PreviousItem
         }
         
-        private void MenuItem_Click_toFront(object sender, RoutedEventArgs e)
-        {
-            Switch();
-        }
-
-        private async void MenuItem_Click_toClose(object sender, RoutedEventArgs e)
-        {
-            var windows = lb.SelectedItems.Cast<AppWindowViewModel>().ToList();
-            foreach (var win in windows)
-            {
-                bool isClosed = await _windowCloser.TryCloseAsync(win);
-                if (isClosed)
-                    RemoveWindow(win);
-            }
-
-            if (lb.Items.Count == 0)
-                HideWindow();
-        }
-
-        private void MenuItem_Duplicate(object sender, RoutedEventArgs e)
-        {
-            foreach (var item in lb.SelectedItems)
-            {
-                var torun = _unfilteredWindowList[lb.SelectedIndex].AppWindow.ExecutablePath.ToString();
-                System.Diagnostics.Process.Start(torun);
-            }
-
-            HideWindow();
-        }
-
         void Toggle_sortWinList()
         {
             _sortWinList = !_sortWinList;
@@ -924,5 +931,6 @@ namespace Switcheroo
                 }
             }
         }
+        
     }
 }

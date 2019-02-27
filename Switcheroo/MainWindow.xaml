@@ -219,7 +219,14 @@
                         <EventSetter Event="MouseLeftButtonUp" Handler="ListBoxItem_MouseLBClick" />
                     </Style>
                 </ListBox.ItemContainerStyle>
-                <!-- Changes inactive selection color to be same as selected -->
+              <ListBox.ContextMenu>
+                <ContextMenu>
+                  <MenuItem Header="Close" Click="MenuItem_Click_toClose"/>
+                  <MenuItem Header="Bring to Front" Click="MenuItem_Click_toFront"/>
+                  <MenuItem Header="Run Another Instance" Click="MenuItem_Duplicate"/>
+                </ContextMenu>
+              </ListBox.ContextMenu>
+              <!-- Changes inactive selection color to be same as selected -->
                 <ListBox.Resources>
                     <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}"
                                      Color="{x:Static SystemColors.HighlightColor}" Opacity=".4" />
