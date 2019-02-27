@@ -27,6 +27,8 @@ Activate Switcheroo            | `Alt + Space`   | This shortcut can be customiz
 Activate Switcheroo            | `Alt + Tab`     | Only works if enabled under _Options_
 _When Switcheroo is open_      |                 |
 Switch to selected window      | `Enter`         |
+Select next/previous           | `Tab`/`Shift + Tab`, `Alt + J`/`Alt + K` | 
+Selection jumps                | `Home`, `End`, `PageUp`, `PageDown`| First, Last, Page up, Page down
 Switch to n-th window          | `Alt + 1..0`    | For first ten on the list. 0 for tenth.
 Close selected window          | `Ctrl + W`,`Alt + X`|
 Options                        | `Alt + O`       |
