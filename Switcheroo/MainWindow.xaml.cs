@@ -56,11 +56,16 @@ namespace Switcheroo
         public static readonly RoutedUICommand SwitchToWindowCommand = new RoutedUICommand();
         public static readonly RoutedUICommand ScrollListDownCommand = new RoutedUICommand();
         public static readonly RoutedUICommand ScrollListUpCommand = new RoutedUICommand();
+        public static readonly RoutedUICommand ScrollListPageDownCommand = new RoutedUICommand();
+        public static readonly RoutedUICommand ScrollListPageUpCommand = new RoutedUICommand();
+        public static readonly RoutedUICommand ScrollListHomeCommand = new RoutedUICommand();
+        public static readonly RoutedUICommand ScrollListEndCommand = new RoutedUICommand();
         private OptionsWindow _optionsWindow;
         private AboutWindow _aboutWindow;
         private AltTabHook _altTabHook;
         private SystemWindow _foregroundWindow;
         private bool _altTabAutoSwitch;
+        private bool _sortWinList = false;
 
         public MainWindow()
         {
@@ -102,12 +107,69 @@ namespace Switcheroo
                 {
                     Opacity = 0;
                 }
-                else if (args.SystemKey == Key.S && Keyboard.Modifiers.HasFlag(ModifierKeys.Alt))
+                else if (args.SystemKey == Key.O)
+                {
+                    Options();
+                }
+                else if (args.SystemKey == Key.Q && Keyboard.Modifiers.HasFlag(ModifierKeys.Alt))
                 {
                     _altTabAutoSwitch = false;
                     tb.Text = "";
                     tb.IsEnabled = true;
                     tb.Focus();
+                }
+                else if (args.SystemKey == Key.S && Keyboard.Modifiers.HasFlag(ModifierKeys.Alt))
+                {
+                    Toggle_sortWinList();
+                    LoadData(InitialFocus.NextItem);
+                }
+                else if ((args.SystemKey == Key.Up || args.SystemKey == Key.K) && Keyboard.Modifiers.HasFlag(ModifierKeys.Alt))
+                {
+                    PreviousItem();
+                }
+                else if ((args.SystemKey == Key.Down || args.SystemKey == Key.J) && Keyboard.Modifiers.HasFlag(ModifierKeys.Alt))
+                {
+                    NextItem();
+                }
+                else if (args.SystemKey == Key.D1 && Keyboard.Modifiers.HasFlag(ModifierKeys.Alt))
+                {
+                    SwitchToIndex(0);
+                }
+                else if (args.SystemKey == Key.D2 && Keyboard.Modifiers.HasFlag(ModifierKeys.Alt))
+                {
+                    SwitchToIndex(1);
+                }
+                else if (args.SystemKey == Key.D3 && Keyboard.Modifiers.HasFlag(ModifierKeys.Alt))
+                {
+                    SwitchToIndex(2);
+                }
+                else if (args.SystemKey == Key.D4 && Keyboard.Modifiers.HasFlag(ModifierKeys.Alt))
+                {
+                    SwitchToIndex(3);
+                }
+                else if (args.SystemKey == Key.D5 && Keyboard.Modifiers.HasFlag(ModifierKeys.Alt))
+                {
+                    SwitchToIndex(4);
+                }
+                else if (args.SystemKey == Key.D6 && Keyboard.Modifiers.HasFlag(ModifierKeys.Alt))
+                {
+                    SwitchToIndex(5);
+                }
+                else if (args.SystemKey == Key.D7 && Keyboard.Modifiers.HasFlag(ModifierKeys.Alt))
+                {
+                    SwitchToIndex(6);
+                }
+                else if (args.SystemKey == Key.D8 && Keyboard.Modifiers.HasFlag(ModifierKeys.Alt))
+                {
+                    SwitchToIndex(7);
+                }
+                else if (args.SystemKey == Key.D9 && Keyboard.Modifiers.HasFlag(ModifierKeys.Alt))
+                {
+                    SwitchToIndex(8);
+                }
+                else if (args.SystemKey == Key.D0 && Keyboard.Modifiers.HasFlag(ModifierKeys.Alt))
+                {
+                    SwitchToIndex(9);
                 }
             };
 
@@ -131,6 +193,17 @@ namespace Switcheroo
                     Switch();
                 }
             };
+        }
+
+        private void SwitchToIndex(int i)
+        {
+            if (i < lb.Items.Count)
+            {
+                lb.SelectedIndex = i;
+                ScrollSelectedItemIntoView();
+                Switch();
+                HideWindow();
+            }
         }
 
         private void SetUpHotKey()
@@ -164,11 +237,13 @@ namespace Switcheroo
         private void SetUpNotifyIcon()
         {
             var icon = Properties.Resources.icon;
-
-            var runOnStartupMenuItem = new MenuItem("Run on Startup", (s, e) => RunOnStartup(s as MenuItem))
+            
+            var runOnStartupMenuItem = new MenuItem("Run on &Startup", (s, e) => RunOnStartup(s as MenuItem))
             {
                 Checked = new AutoStart().IsEnabled
             };
+
+            var sortAZMenuItem = new MenuItem("Alpha&betical Sort", (s, e) => sortAZMenuItem_Click(s as MenuItem));
 
             _notifyIcon = new NotifyIcon
             {
@@ -177,12 +252,31 @@ namespace Switcheroo
                 Visible = true,
                 ContextMenu = new System.Windows.Forms.ContextMenu(new[]
                 {
-                    new MenuItem("Options", (s, e) => Options()),
+                    new MenuItem("&Options", (s, e) => Options()),
                     runOnStartupMenuItem,
-                    new MenuItem("About", (s, e) => About()),
-                    new MenuItem("Exit", (s, e) => Quit())
+                    sortAZMenuItem,
+                    new MenuItem("&About", (s, e) => About()),
+                    new MenuItem("E&xit", (s, e) => Quit())
                 })
             };
+            
+            _notifyIcon.MouseClick += new System.Windows.Forms.MouseEventHandler(NotifyIconMouseClick);
+        }
+
+        void NotifyIconMouseClick(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                if (Visibility != Visibility.Visible)
+                {
+                   _foregroundWindow = SystemWindow.ForegroundWindow;
+                    Show();
+                    Activate();
+                    LoadData(InitialFocus.NextItem);
+                    Keyboard.Focus(tb);
+                    Opacity = 1;
+                }
+            }
         }
 
         private static void RunOnStartup(MenuItem menuItem)
@@ -287,12 +381,21 @@ namespace Switcheroo
                     new XamlHighlighter().Highlight(new[] {new StringPart(window.AppWindow.ProcessTitle)});
             }
 
-            lb.DataContext = null;
-            lb.DataContext = _filteredWindowList;
+            if (_sortWinList == true)
+            {
+                _unfilteredWindowList = _unfilteredWindowList.OrderBy(x => x.FormattedProcessTitle).ToList();
+                
+                lb.DataContext = null;
+                lb.DataContext = _unfilteredWindowList;
+            }
+            else
+            {
+                lb.DataContext = _filteredWindowList;
+            }
 
             FocusItemInList(focus, foregroundWindowMovedToBottom);
 
-            tb.Clear();
+            if ( tb.IsEnabled ) tb.Clear();
             tb.Focus();
             CenterWindow();
             ScrollSelectedItemIntoView();
@@ -423,6 +526,15 @@ namespace Switcheroo
             Application.Current.Shutdown();
         }
 
+        /// <summary>
+        /// Toggle alphabetical order program sort
+        /// </summary>
+        private void sortAZMenuItem_Click(MenuItem menuItem)
+        {
+            Toggle_sortWinList();
+            menuItem.Checked = _sortWinList;
+        }
+
         #endregion
 
         /// =================================
@@ -498,7 +610,7 @@ namespace Switcheroo
                 {
                     _altTabAutoSwitch = true;
                     tb.IsEnabled = false;
-                    tb.Text = "Press Alt + S to search";
+                    tb.Text = "Press Alt + Q to search";
                 }
 
                 Opacity = 1;
@@ -594,10 +706,43 @@ namespace Switcheroo
             e.Handled = true;
         }
 
-        private void ListBoxItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void ListBoxItem_MouseLBClick(object sender, MouseButtonEventArgs e)
+        {
+            if (!Keyboard.Modifiers.HasFlag(ModifierKeys.Control) && !Keyboard.Modifiers.HasFlag(ModifierKeys.Shift))
+            {
+                Switch();
+            }
+            e.Handled = true;
+        }
+        
+        private void MenuItem_Click_toFront(object sender, RoutedEventArgs e)
         {
             Switch();
-            e.Handled = true;
+        }
+
+        private async void MenuItem_Click_toClose(object sender, RoutedEventArgs e)
+        {
+            var windows = lb.SelectedItems.Cast<AppWindowViewModel>().ToList();
+            foreach (var win in windows)
+            {
+                bool isClosed = await _windowCloser.TryCloseAsync(win);
+                if (isClosed)
+                    RemoveWindow(win);
+            }
+
+            if (lb.Items.Count == 0)
+                HideWindow();
+        }
+
+        private void MenuItem_Duplicate(object sender, RoutedEventArgs e)
+        {
+            foreach (var item in lb.SelectedItems)
+            {
+                var torun = _unfilteredWindowList[lb.SelectedIndex].AppWindow.ExecutablePath.ToString();
+                System.Diagnostics.Process.Start(torun);
+            }
+
+            HideWindow();
         }
 
         private async void CloseWindow(object sender, ExecutedRoutedEventArgs e)
@@ -682,7 +827,54 @@ namespace Switcheroo
                 ScrollSelectedItemIntoView();
             }
         }
+        
+        private void ScrollListPageUp(object sender, ExecutedRoutedEventArgs e)
+        {
+            double n = NumOfVisibleRows();
 
+            if (lb.SelectedIndex - n >= 0)
+                lb.SelectedIndex = Convert.ToInt32(lb.SelectedIndex - n);
+            else
+                lb.SelectedIndex = 0;
+            ScrollSelectedItemIntoView();
+
+            e.Handled = true;
+        }
+
+        private void ScrollListPageDown(object sender, ExecutedRoutedEventArgs e)
+        {
+            double n = NumOfVisibleRows();
+
+            if (n + lb.SelectedIndex <= lb.Items.Count - 1)
+                lb.SelectedIndex = Convert.ToInt32(n);
+            else
+                lb.SelectedIndex = lb.Items.Count - 1;
+            ScrollSelectedItemIntoView();
+
+            e.Handled = true;
+        }
+
+        private double NumOfVisibleRows()
+        {
+            return Math.Round(lb.ActualHeight / SearchGrid.ActualHeight); 
+        }
+
+        private void ScrollListHome(object sender, ExecutedRoutedEventArgs e)
+        {
+            lb.SelectedIndex = 0;
+            ScrollSelectedItemIntoView();
+
+            e.Handled = true;
+        }
+
+        private void ScrollListEnd(object sender, ExecutedRoutedEventArgs e)
+        {
+            lb.SelectedIndex = lb.Items.Count-1;
+            ScrollSelectedItemIntoView();
+
+            e.Handled = true;
+        }
+        
         private void ScrollSelectedItemIntoView()
         {
             var selectedItem = lb.SelectedItem;
@@ -723,5 +915,22 @@ namespace Switcheroo
             NextItem,
             PreviousItem
         }
+        
+        void Toggle_sortWinList()
+        {
+            _sortWinList = !_sortWinList;
+            Toggle_MenuItem("Alpha&betical Sort");
+        }
+
+        void Toggle_MenuItem(String text)
+        {
+            foreach (MenuItem mi in _notifyIcon.ContextMenu.MenuItems) {
+                if((String)mi.Text == text) 
+                {
+                    mi.Checked = !mi.Checked;
+                }
+            }
+        }
+        
     }
 }
