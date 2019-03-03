@@ -184,8 +184,8 @@ namespace Switcheroo
                 {
                     HideWindow();
                 }
-                else if (args.SystemKey == Key.LeftAlt && !Keyboard.Modifiers.HasFlag(ModifierKeys.Control))
-                {
+                else if (args.SystemKey == Key.LeftAlt && !Keyboard.Modifiers.HasFlag(ModifierKeys.Control) && _altTabAutoSwitch )
+                {   
                     Switch();
                 }
                 else if (args.Key == Key.LeftAlt && _altTabAutoSwitch)
@@ -259,7 +259,7 @@ namespace Switcheroo
                     new MenuItem("E&xit", (s, e) => Quit())
                 })
             };
-            
+
             _notifyIcon.MouseClick += new System.Windows.Forms.MouseEventHandler(NotifyIconMouseClick);
         }
 
