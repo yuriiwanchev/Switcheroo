@@ -185,7 +185,7 @@ namespace Switcheroo
                     HideWindow();
                 }
                 else if (args.SystemKey == Key.LeftAlt && !Keyboard.Modifiers.HasFlag(ModifierKeys.Control) && _altTabAutoSwitch )
-                {   
+                {
                     Switch();
                 }
                 else if (args.Key == Key.LeftAlt && _altTabAutoSwitch)
@@ -273,6 +273,8 @@ namespace Switcheroo
                     Show();
                     Activate();
                     LoadData(InitialFocus.NextItem);
+                    tb.IsEnabled = true;
+                    tb.Text = "";
                     Keyboard.Focus(tb);
                     Opacity = 1;
                 }
