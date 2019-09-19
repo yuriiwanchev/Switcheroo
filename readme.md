@@ -1,7 +1,8 @@
 <img src="logo.png" alt="Switcheroo" width="48px" height="48px"> Switcheroo + mods
 ==========
 
-This is a modded version of [Switcheroo](https://github.com/kvakulo/Switcheroo).
+This is my modded version of [Switcheroo](https://github.com/kvakulo/Switcheroo).
+It is presented as-is with no warranty whatsoever.
 
 Download
 --------
