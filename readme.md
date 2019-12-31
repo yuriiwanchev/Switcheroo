@@ -1,13 +1,27 @@
 <img src="logo.png" alt="Switcheroo" width="48px" height="48px"> Switcheroo + mods
 ==========
 
-This is my modded version of [Switcheroo](https://github.com/kvakulo/Switcheroo).
-It is presented as-is with no warranty whatsoever.
+This is my modded version of [Switcheroo](https://github.com/kvakulo/Switcheroo) branched after the maintainer became unresponsive.
+It is distributed as-is with no warranty or guarantees whatsoever. Your patches are welcome.
 
 Download
 --------
 
-You can grab the binaries **[from here](https://github.com/elig0n/Switcheroo/releases)**
+Grab the binaries **[here](https://github.com/elig0n/Switcheroo/releases)**
+
+Custom Features
+-------
+- Numerical quick access - Alt+number for easy switching to any of the first 10 applications.
+- Sort list by process name or title via tray icon menu or shortcut keys in-live list
+- Tray icon single click open
+- List items context menu with options: close, run another instance (duplicate) or bring to front
+- Home/End/PageUp/PageDown keys navigation in the list
+- VIM-like navigation keys Alt+j Alt+k. Alt+Up/down is working now too for when you opened the application with alt+ shortcut pressed down.
+
+Planned:
+- Themes
+- Save list of current running apps to a text file
+- Code cleaning and refactoring
 
 Usage
 -----
