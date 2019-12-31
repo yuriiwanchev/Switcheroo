@@ -22,6 +22,7 @@ Planned:
 - Themes
 - Save list of current running apps to a text file
 - Code cleaning and refactoring
+- Hotkeys configuration
 
 Usage
 -----
