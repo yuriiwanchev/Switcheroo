@@ -25,7 +25,7 @@ Custom Features
 - Custom hotkeys configuration
 - Code cleaning and refactoring, performance improvements
 
-Usage
+Shortcuts
 -----
 
 Action                         | Shortcut        | Remarks
