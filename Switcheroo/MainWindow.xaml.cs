@@ -112,6 +112,10 @@ namespace Switcheroo
                 {
                     Options();
                 }
+                else if (args.SystemKey == Key.W)
+                {
+                    ExportToJSON();
+                }
                 else if (args.SystemKey == Key.Q && Keyboard.Modifiers.HasFlag(ModifierKeys.Alt))
                 {
                     _altTabAutoSwitch = false;
