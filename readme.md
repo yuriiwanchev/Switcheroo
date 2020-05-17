@@ -43,4 +43,4 @@ Dismiss Switcheroo             | `Esc`           |
 
 Discord
 ------
-You can join the [Discord channel](https://discord.gg/xq66Yf) to further discuss development.
+You can join the [Discord channel](https://discord.gg/8zMj7fz) to further discuss development.
