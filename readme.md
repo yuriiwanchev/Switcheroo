@@ -18,7 +18,7 @@ Custom Features
 - Home/End/PageUp/PageDown keys navigation in the list
 - VIM-like navigation keys Alt+j Alt+k. Alt+Up/down is working now too for when you opened the application with alt+ shortcut pressed down.
 
-Planned:
+*Planned:*
 - Themes
 - Save list of current running apps to a text file
 - Code cleaning and refactoring
