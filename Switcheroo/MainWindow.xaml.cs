@@ -250,6 +250,8 @@ namespace Switcheroo
 
             var sortAZMenuItem = new MenuItem("Alpha&betical Sort", (s, e) => sortAZMenuItem_Click(s as MenuItem));
 
+            var exportToJSON_MenuItem = new MenuItem("Export to &Json", (s, e) => exportToJSON_MenuItem_Click(s as MenuItem));
+
             _notifyIcon = new NotifyIcon
             {
                 Text = "Switcheroo",
@@ -260,6 +262,7 @@ namespace Switcheroo
                     new MenuItem("&Options", (s, e) => Options()),
                     runOnStartupMenuItem,
                     sortAZMenuItem,
+                    exportToJSON_MenuItem,
                     new MenuItem("&About", (s, e) => About()),
                     new MenuItem("E&xit", (s, e) => Quit())
                 })
@@ -576,6 +579,14 @@ namespace Switcheroo
         {
             Toggle_sortWinList();
             menuItem.Checked = _sortWinList;
+        }
+
+        /// <summary>
+        /// Context menu "Export to Json"
+        /// </summary>
+        private void exportToJSON_MenuItem_Click(MenuItem menuItem)
+        {
+            ExportToJSON();
         }
 
         #endregion
