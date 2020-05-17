@@ -356,8 +356,8 @@ namespace Switcheroo
         }
 
         /// <summary>
-        /// Export JSON of currently running apps to a file. 
-        /// Structure: window titles under unique process name key.
+        /// Export JSON of currently running windows.
+        /// JSON Structure: arrays of window titles are grouped under unique process names which are sorted alphabetically.
         /// </summary>
         private void ExportToJSON()
         {
