@@ -381,9 +381,12 @@ namespace Switcheroo
             SaveFileDialog1.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
             SaveFileDialog1.ShowDialog();
 
-            using (System.IO.StreamWriter file = new System.IO.StreamWriter(@SaveFileDialog1.FileName, false))
+            if (SaveFileDialog1.FileName != "")
             {
-                file.Write(JSON_output);
+                using (System.IO.StreamWriter file = new System.IO.StreamWriter(@SaveFileDialog1.FileName, false))
+                {
+                    file.Write(JSON_output);
+                }
             }
         }
 
