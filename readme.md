@@ -22,7 +22,7 @@ Custom Features
 - Themes
 - Save list of current running apps to a text file
 - Code cleaning and refactoring
-- Hotkeys configuration
+- Custom hotkeys configuration
 
 Usage
 -----
