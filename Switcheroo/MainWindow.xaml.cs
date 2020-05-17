@@ -18,6 +18,7 @@
  * along with Switcheroo.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -352,6 +353,31 @@ namespace Switcheroo
             {
             }
             return null;
+        }
+
+        /// <summary>
+        /// Export JSON of currently running apps to a file. 
+        /// Structure: window titles under unique process name key.
+        /// </summary>
+        private void ExportToJSON()
+        {
+            _unfilteredWindowList = new WindowFinder().GetWindows().Select(window => new AppWindowViewModel(window)).ToList();
+            _unfilteredWindowList = _unfilteredWindowList.OrderBy(x => x.ProcessTitle).ToList();
+
+            var winsDict = _unfilteredWindowList.GroupBy(x => x.ProcessTitle).ToDictionary(x => x.Key, x => x.Select(y => y.WindowTitle));
+
+            string JSON_output = JsonConvert.SerializeObject(winsDict);
+
+            SaveFileDialog SaveFileDialog1 = new SaveFileDialog();
+            SaveFileDialog1.Title = "Save list to";
+            SaveFileDialog1.DefaultExt = "txt";
+            SaveFileDialog1.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
+            SaveFileDialog1.ShowDialog();
+
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter(@SaveFileDialog1.FileName, false))
+            {
+                file.Write(JSON_output);
+            }
         }
 
         /// <summary>
