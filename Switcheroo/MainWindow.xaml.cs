@@ -82,6 +82,10 @@ namespace Switcheroo
 
             CheckForUpdates();
 
+            Theme.SuscribeWindow(this);
+
+            Theme.LoadTheme();
+
             Opacity = 0;
         }
 
