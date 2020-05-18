@@ -6,8 +6,7 @@
         Closing="OnClose" ResizeMode="NoResize" ShowInTaskbar="False" WindowStyle="None" AllowsTransparency="True"
         SizeToContent="WidthAndHeight"
         Title="" MinWidth="542" Deactivated="MainWindow_OnLostFocus" Loaded="MainWindow_OnLoaded"
-        BorderBrush="Transparent" BorderThickness="1"
-        Background="Transparent">
+        BorderThickness="1">
 
     <Window.CommandBindings>
         <CommandBinding Command="local:MainWindow.CloseWindowCommand"
@@ -81,7 +80,7 @@
             </DockPanel>
            <Grid Name="SearchGrid" DockPanel.Dock="Top">
                 <TextBox Name="tb" Padding="5" VerticalAlignment="Top" TextChanged="TextChanged" FontSize="15"
-                         VerticalContentAlignment="Center">
+                         VerticalContentAlignment="Center" BorderBrush="{x:Null}">
                     <TextBox.InputBindings>
                         <!-- For now, leave these here.  Would it be better to route them upward? -->
                         <KeyBinding Command="local:MainWindow.ScrollListUpCommand" Key="Up" />
@@ -137,8 +136,7 @@
                                                              IfTrue="{StaticResource FadeOutOpacity}" IfFalse="1.0" />
 
                                 <Color x:Key="FadeOutColor">Silver</Color>
-                                <local:BoolToColorConverter x:Key="TitleColorConverter"
-                                                            IfTrue="{StaticResource FadeOutColor}" IfFalse="Black" />
+
                                 <local:BoolToColorConverter x:Key="ProcessColorConverter"
                                                             IfTrue="{StaticResource FadeOutColor}" IfFalse="Gray" />
 
@@ -196,10 +194,6 @@
                                 </Image>
                                 <TextBlock local:FormattedTextAttribute.FormattedText="{Binding Path=FormattedTitle}"
                                            Grid.Row="0" Grid.Column="1" Margin="3,0">
-                                    <TextBlock.Foreground>
-                                        <SolidColorBrush
-                                            Color="{Binding IsBeingClosed, Converter={StaticResource TitleColorConverter}, Mode=OneTime}" />
-                                    </TextBlock.Foreground>
                                 </TextBlock>
                                 <TextBlock
                                     local:FormattedTextAttribute.FormattedText="{Binding Path=FormattedProcessTitle}"
@@ -216,6 +210,7 @@
                 <ListBox.ItemContainerStyle>
                     <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource {x:Type ListBoxItem}}">
                         <Setter Property="Padding" Value="0,5" />
+                        <Setter Property="Opacity" Value="1" />
                         <EventSetter Event="MouseLeftButtonUp" Handler="ListBoxItem_MouseLBClick" />
                     </Style>
                 </ListBox.ItemContainerStyle>
