@@ -11,20 +11,21 @@ Grab the binaries **[here](https://github.com/elig0n/Switcheroo/releases)**
 
 Custom Features
 -------
-- Numerical quick access - Alt+number for easy switching to any of the first 10 applications.
-- Sort list by process name or title via tray icon menu or shortcut keys in-live list
-- Tray icon single click open
-- List items context menu with options: close, run another instance (duplicate) or bring to front
-- Home/End/PageUp/PageDown keys navigation in the list
-- VIM-like navigation keys Alt+j Alt+k. Alt+Up/down is working now too for when you opened the application with alt+ shortcut pressed down.
+- *Numerical quick access* - Alt+digit for easy switching to any of the first 10 applications (also hinted on-screen).
+- *Sort* list by process name or title via tray icon menu or shortcut keys in-live list
+- *Tray* icon single click open, extended context menu actions.
+- Windows list context menu *actions*: close, run, clone instance (duplicate), bring to front
+- Home/End/PageUp/PageDown *keys* navigation in the list
+- VIM-like navigation *keys* Alt+j Alt+k. Alt+Up/down is working now too for when you opened the application with alt+ shortcut pressed down.
 
-Planned:
+*Planned:*
+-------
+- Export apps list to JSON
 - Themes
-- Save list of current running apps to a text file
-- Code cleaning and refactoring
-- Hotkeys configuration
+- Custom hotkeys configuration
+- Code cleaning and refactoring, performance improvements
 
-Usage
+Shortcuts
 -----
 
 Action                         | Shortcut        | Remarks
@@ -43,4 +44,4 @@ Dismiss Switcheroo             | `Esc`           |
 
 Discord
 ------
-You can join the [Discord channel](https://discord.gg/xq66Yf) to further discuss development.
+Please join our [Discord channel](https://discord.gg/8zMj7fz) for further discussions.
