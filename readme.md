@@ -12,6 +12,7 @@ Grab the binaries **[here](https://github.com/elig0n/Switcheroo/releases)**
 Custom Features
 -------
 - *Numerical quick access* - Alt+digit for easy switching to any of the first 10 applications (also hinted on-screen).
+- *Light/Dark Theme*
 - *Sort* list by process name or title via tray icon menu or shortcut keys in-live list
 - *Tray* icon single click open, extended context menu actions.
 - Windows list context menu *actions*: close, run, clone instance (duplicate), bring to front
@@ -21,7 +22,6 @@ Custom Features
 *Planned:*
 -------
 - Export apps list to JSON
-- Themes
 - Custom hotkeys configuration
 - Code cleaning and refactoring, performance improvements
 
