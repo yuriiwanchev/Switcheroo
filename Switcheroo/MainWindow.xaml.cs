@@ -376,27 +376,31 @@ namespace Switcheroo
             _filteredWindowList = new ObservableCollection<AppWindowViewModel>(_unfilteredWindowList);
             _windowCloser = new WindowCloser();
 
+            for (var i = 0; i < _unfilteredWindowList.Count; i++)
+            {
+                _unfilteredWindowList[i].FormattedTitle = new XamlHighlighter().Highlight(new[] { new StringPart(_unfilteredWindowList[i].AppWindow.Title) });
+                _unfilteredWindowList[i].FormattedProcessTitle =
+                    new XamlHighlighter().Highlight(new[] { new StringPart(_unfilteredWindowList[i].AppWindow.ProcessTitle) });
+            }
+
             if (_sortWinList == true)
             {
                 _unfilteredWindowList = _unfilteredWindowList.OrderBy(x => x.FormattedProcessTitle).ToList();
-                
+            }
+
+            for (var i = 0; i < 10; i++)
+            {
+                _unfilteredWindowList[i].FormattedTitle = new XamlHighlighter().Highlight(new[] { new StringPart("" + (i + 1) + " ", true) }) + _unfilteredWindowList[i].FormattedTitle ;
+            }
+
+            if (_sortWinList == true)
+            {
                 lb.DataContext = null;
                 lb.DataContext = _unfilteredWindowList;
             }
             else
             {
                 lb.DataContext = _filteredWindowList;
-            }
-
-            for (var i = 0; i < _unfilteredWindowList.Count; i++)
-            {
-                if (i < 10)
-                {
-                    _unfilteredWindowList[i].FormattedTitle = new XamlHighlighter().Highlight(new[] { new StringPart("" + (i + 1) + " ", true) });
-                }
-                _unfilteredWindowList[i].FormattedTitle += new XamlHighlighter().Highlight(new[] { new StringPart(_unfilteredWindowList[i].AppWindow.Title) });
-                _unfilteredWindowList[i].FormattedProcessTitle =
-                    new XamlHighlighter().Highlight(new[] { new StringPart(_unfilteredWindowList[i].AppWindow.ProcessTitle) });
             }
 
             FocusItemInList(focus, foregroundWindowMovedToBottom);
