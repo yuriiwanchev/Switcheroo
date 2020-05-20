@@ -18,12 +18,12 @@ Custom Features
 - Windows list context menu *actions*: close, run, clone instance (duplicate), bring to front
 - Home/End/PageUp/PageDown *keys* navigation in the list
 - VIM-like navigation *keys* Alt+j Alt+k. Alt+Up/down is working now too for when you opened the application with alt+ shortcut pressed down.
+- Export list to JSON
 
 *Planned:*
 -------
 - Performance improvements
 - Code cleaning and refactoring, 
-- Export list to JSON
 - Custom hotkeys configuration
 
 Shortcuts
