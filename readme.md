@@ -21,9 +21,10 @@ Custom Features
 
 *Planned:*
 -------
-- Export apps list to JSON
+- Performance improvements
+- Code cleaning and refactoring, 
+- Export list to JSON
 - Custom hotkeys configuration
-- Code cleaning and refactoring, performance improvements
 
 Shortcuts
 -----
