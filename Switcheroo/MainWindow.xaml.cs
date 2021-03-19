@@ -427,8 +427,9 @@ namespace Switcheroo
             {
                 _unfilteredWindowList = _unfilteredWindowList.OrderBy(x => x.FormattedProcessTitle).ToList();
             }
-
-            for (var i = 0; i < 10; i++)
+            
+            var _itemsCountToHighlight = Math.Min(_unfilteredWindowList.Count, 10);
+            for (var i = 0; i < _itemsCountToHighlight; i++)
             {
                 _unfilteredWindowList[i].FormattedTitle = new XamlHighlighter().Highlight(new[] { new StringPart("" + (i + 1) + " ", true) }) + _unfilteredWindowList[i].FormattedTitle ;
             }
