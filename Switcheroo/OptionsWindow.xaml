@@ -27,7 +27,7 @@
                 Faster and more native-like swiching between windows.<LineBreak />
                 <LineBreak />
                 Use <Span FontFamily="Consolas" FontWeight="Bold">Ctrl + Alt + Tab</Span> for displaying Switcheroo with search activated, or
-                press <Span FontFamily="Consolas" FontWeight="Bold">Alt + S</Span> when the Switcheroo overlay appears.
+                press <Span FontFamily="Consolas" FontWeight="Bold">Alt + Q</Span> when the Switcheroo overlay appears.
             </TextBlock>
             <CheckBox x:Name="RunAsAdministrator" Margin="5,5,5,1" Content="Run as Administrator *"/>
             <TextBlock Margin="25,0,5,10" FontSize="10" Foreground="DimGray" TextWrapping="Wrap">
