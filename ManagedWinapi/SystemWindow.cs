@@ -26,6 +26,7 @@ using System.Diagnostics;
 using System.Drawing;
 using ManagedWinapi.Windows.Contents;
 using System.Text.RegularExpressions;
+using ManagedWinapi.VirtualDesktop;
 
 namespace ManagedWinapi.Windows
 {
@@ -356,23 +357,47 @@ namespace ManagedWinapi.Windows
             {
                 SystemWindow tmp = new SystemWindow(hwnd);
                 if (predicate(tmp))
-                    wnds.Add(tmp);
+                {
+                    if (IsWindowOnCurrentDesktop(hwnd))
+                    {
+						wnds.Add(tmp);
+					}
+                }
+                    
                 return 1;
-            }), new IntPtr(0));
+            }), IntPtr.Zero);
             return wnds.ToArray();
         }
 
-        /// <summary>
-        /// Finds the system window below the given point. This need not be a
-        /// toplevel window; disabled windows are not returned either.
-        /// If you have problems with transparent windows that cover nontransparent
-        /// windows, consider using <see cref="FromPointEx"/>, since that method
-        /// tries hard to avoid this problem.
-        /// </summary>
-        /// <param name="x">X coordinate</param>
-        /// <param name="y">Y coordinate</param>
-        /// <returns></returns>
-        public static SystemWindow FromPoint(int x, int y)
+		private static bool IsWindowOnCurrentDesktop(IntPtr hWnd)
+		{
+            try
+            {
+                var curr = Desktop.FromWindow(hWnd);
+				var isTrue = curr.Equals(Desktop.Current);
+				return isTrue;
+			}
+            catch (System.Runtime.InteropServices.COMException)
+            {
+                return false;
+            }
+            catch (Exception)
+            {
+                return true;
+            }
+        }
+
+		/// <summary>
+		/// Finds the system window below the given point. This need not be a
+		/// toplevel window; disabled windows are not returned either.
+		/// If you have problems with transparent windows that cover nontransparent
+		/// windows, consider using <see cref="FromPointEx"/>, since that method
+		/// tries hard to avoid this problem.
+		/// </summary>
+		/// <param name="x">X coordinate</param>
+		/// <param name="y">Y coordinate</param>
+		/// <returns></returns>
+		public static SystemWindow FromPoint(int x, int y)
         {
             IntPtr hwnd = WindowFromPoint(new POINT(x, y));
             if (hwnd.ToInt64() == 0)

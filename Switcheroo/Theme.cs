@@ -26,26 +26,26 @@ namespace Switcheroo
             mainWindow = main;
         }
 
-        public static void LoadTheme()
-        {
-            Mode mode;
-            Enum.TryParse(Settings.Default.Theme, out mode);
-            switch (mode)
-            {
-                case Mode.Light:
-                    Background = new SolidColorBrush(Color.FromRgb(248, 248, 248));
-                    Foreground = new SolidColorBrush(Color.FromRgb(0,0,0));
-                    break;
-                case Mode.Dark:
-                    Background = new SolidColorBrush(Color.FromRgb(30, 30, 30));
-                    Foreground = new SolidColorBrush(Color.FromRgb(248, 248, 248));
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
-            }
+        //public static void LoadTheme()
+        //{
+        //    Mode mode;
+        //    Enum.TryParse(Settings.Default.Theme, out mode);
+        //    switch (mode)
+        //    {
+        //        case Mode.Light:
+        //            Background = new SolidColorBrush(Color.FromRgb(248, 248, 248));
+        //            Foreground = new SolidColorBrush(Color.FromRgb(0,0,0));
+        //            break;
+        //        case Mode.Dark:
+        //            Background = new SolidColorBrush(Color.FromRgb(30, 30, 30));
+        //            Foreground = new SolidColorBrush(Color.FromRgb(248, 248, 248));
+        //            break;
+        //        default:
+        //            throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
+        //    }
 
-            SetUpTheme();
-        }
+        //    SetUpTheme();
+        //}
 
         private static void SetUpTheme()
         {

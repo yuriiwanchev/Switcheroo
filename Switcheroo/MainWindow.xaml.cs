@@ -84,7 +84,7 @@ namespace Switcheroo
 
             Theme.SuscribeWindow(this);
 
-            Theme.LoadTheme();
+            //Theme.LoadTheme(); 
 
             Opacity = 0;
         }
@@ -377,7 +377,7 @@ namespace Switcheroo
 
             var winsDict = _unfilteredWindowList.GroupBy(x => x.ProcessTitle).ToDictionary(x => x.Key, x => x.Select(y => y.WindowTitle));
 
-            string JSON_output = JsonConvert.SerializeObject(winsDict);
+			string JSON_output = JsonConvert.SerializeObject(winsDict);
 
             SaveFileDialog SaveFileDialog1 = new SaveFileDialog();
             SaveFileDialog1.Title = "Save list to";
@@ -399,7 +399,10 @@ namespace Switcheroo
         /// </summary>
         private void LoadData(InitialFocus focus)
         {
-            _unfilteredWindowList = new WindowFinder().GetWindows().Select(window => new AppWindowViewModel(window)).ToList();
+
+			_unfilteredWindowList = new WindowFinder().GetWindows()
+                .Select(window => new AppWindowViewModel(window))
+                .ToList();
 
             var firstWindow = _unfilteredWindowList.FirstOrDefault();
 

@@ -147,7 +147,7 @@ namespace Switcheroo.Core
             return (ExtendedStyle & WindowExStyleFlags.APPWINDOW) == WindowExStyleFlags.APPWINDOW;
         }
 
-        private bool IsNoActivate()
+		private bool IsNoActivate()
         {
             return (ExtendedStyle & WindowExStyleFlags.NOACTIVATE) == WindowExStyleFlags.NOACTIVATE;
         }

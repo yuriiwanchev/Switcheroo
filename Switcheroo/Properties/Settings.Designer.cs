@@ -12,7 +12,7 @@ namespace Switcheroo.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.5.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.7.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -141,23 +141,6 @@ namespace Switcheroo.Properties {
             set {
                 this["EnableHotKey"] = value;
             }
-        }
-
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Light")]
-        public string Theme
-        {
-            set
-            {
-                this["Theme"] = value;
-                Switcheroo.Theme.LoadTheme(); 
-            }
-            get
-            {
-                return ((string)(this["Theme"]));
-            }
-
         }
     }
 }
